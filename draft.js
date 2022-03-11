@@ -33,6 +33,7 @@ function echoPortNumber() {
         fetch("https://freegeoip.app/json/")
           .then((responseIP) => responseIP.json())
           .then((results) => {
+            weatherCity(results.city);
             res.json({
               city: results.city,
               ip: results.ip,
@@ -43,20 +44,31 @@ function echoPortNumber() {
       }
     });
 
-    // const weather=(l)
+const weatherCity=(city)=>{
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey_weather}`    )
+        .then((weatherData) => weatherData.json())
+        .then((weatherJson) => {
+        // response.json({temperature: weatherJson.main.temp});
+        console.log(weatherJson.weather[0].description);
+        console.log("temperature:", weatherJson.main.temp);
+        console.log(weatherJson.base);
+        // response.send(weatherJson.base);
+        });
+}
 
-let city="Calgary"
-console.log(APIkey_weather);
-fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey_weather}`)
-.then(weatherData=>weatherData.json())
-.then(weatherJson=>{
-    // response.json({temperature: weatherJson.main.temp});    
-    console.log((weatherJson.weather[0].description));
-    console.log("temperature:",weatherJson.main.temp);
-    console.log(weatherJson.base);
-    // response.send(weatherJson.base);
 
-})
+// let city="Calgary"
+// console.log(APIkey_weather);
+// fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey_weather}`)
+// .then(weatherData=>weatherData.json())
+// .then(weatherJson=>{
+//     // response.json({temperature: weatherJson.main.temp});    
+//     console.log((weatherJson.weather[0].description));
+//     console.log("temperature:",weatherJson.main.temp);
+//     console.log(weatherJson.base);
+//     // response.send(weatherJson.base);
+
+// })
 // `Welcome (${name}): your City is: ${results.city}`);
 // response.write(`Welcome (${name}): your ip is: ${results.ip}`);
 // response.send(results.ip);
